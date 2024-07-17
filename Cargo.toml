@@ -1,0 +1,16 @@
+[package]
+name = "devil"
+version = "0.0.1"
+edition = "2021"
+authors = ["Federico Maria Morrone <contact@morrone.dev>"]
+license = "Apache-2.0"
+description = "Async libudev wrapper"
+readme = "README.md"
+documentation = "https://docs.rs/devil"
+repository = "https://github.com/verdiwm/devil"
+include = ["src/**/*.rs", "README.md", "LICENSE"]
+
+[dependencies]
+
+[build-dependencies]
+pkg-config = "0.3.30"
