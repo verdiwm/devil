@@ -1,6 +1,6 @@
 [package]
 name = "devil"
-version = "0.0.5"
+version = "0.0.6"
 edition = "2021"
 authors = ["Federico Maria Morrone <contact@morrone.dev>"]
 license = "Apache-2.0"
