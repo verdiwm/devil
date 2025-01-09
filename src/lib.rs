@@ -1,4 +1,9 @@
-use std::io;
+use std::{
+    ffi::{CStr, OsStr},
+    io,
+    os::unix::ffi::OsStrExt,
+    path::Path,
+};
 
 #[allow(nonstandard_style)]
 pub mod sys;
@@ -36,5 +41,27 @@ impl Drop for Udev {
         unsafe {
             sys::udev_unref(self.as_raw());
         }
+    }
+}
+
+pub struct Device {
+    raw: *mut sys::udev_device,
+}
+
+impl Device {
+    pub unsafe fn from_raw(raw: *mut sys::udev_device) -> Self {
+        Self { raw }
+    }
+
+    pub fn devnode(&self) -> Option<&Path> {
+        let devnode = unsafe { sys::udev_device_get_devnode(self.raw) };
+
+        if devnode.is_null() {
+            return None;
+        }
+
+        Some(Path::new(OsStr::from_bytes(
+            unsafe { CStr::from_ptr(devnode) }.to_bytes(),
+        )))
     }
 }
