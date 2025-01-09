@@ -1,29 +1,33 @@
-use std::{io, mem, ptr::NonNull};
+use std::io;
 
 #[allow(nonstandard_style)]
 pub mod sys;
 
-pub struct Udev(NonNull<sys::udev>);
+pub struct Udev {
+    raw: *mut sys::udev,
+}
 
 impl Udev {
     pub fn new() -> io::Result<Self> {
-        let inner = unsafe { sys::udev_new() };
+        let raw = unsafe { sys::udev_new() };
 
-        if inner.is_null() {
+        if raw.is_null() {
             return Err(io::Error::last_os_error());
         }
 
-        Ok(Self(unsafe { NonNull::new_unchecked(inner) }))
+        Ok(Self { raw })
     }
 
     pub fn as_raw(&self) -> *mut sys::udev {
-        self.0.as_ptr()
+        self.raw
     }
+}
 
-    pub fn into_raw(self) -> *mut sys::udev {
-        let raw = self.0.as_ptr();
-        mem::forget(self);
-        raw
+impl Clone for Udev {
+    fn clone(&self) -> Self {
+        Self {
+            raw: unsafe { sys::udev_ref(self.as_raw()) },
+        }
     }
 }
 
