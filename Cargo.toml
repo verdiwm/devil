@@ -1,6 +1,6 @@
 [package]
 name = "devil"
-version = "0.0.6"
+version = "0.0.7"
 edition = "2021"
 authors = ["Federico Maria Morrone <contact@morrone.dev>"]
 license = "Apache-2.0"
@@ -16,4 +16,4 @@ include = ["src/**/*.rs", "build.rs", "README.md", "LICENSE"]
 pkg-config = "0.3.31"
 
 [dev-dependencies]
-anyhow = "1.0.94"
+anyhow = "1.0.95"
